@@ -106,6 +106,7 @@ contract NFTLocker is NFTLockeradmin{
 
         // withdraw
         NFTCollection.safeTransferFrom(address(this),msg.sender,_originalTokenId);
+        SBTTokenIdByholder[_sbtTokenId] = address(0);
         _burn(_sbtTokenId);
         emit EndLock(msg.sender,_sbtTokenId,_originalTokenId,block.timestamp);
     }
@@ -125,11 +126,11 @@ contract NFTLocker is NFTLockeradmin{
             return new uint256[](0);
         } else {
             uint256[] memory result = new uint256[](tokenCount);
-            uint256 totalToken = totalSupply();
+            uint256 totalToken = sbtNextIndex;
             uint256 resultIndex = 0;
 
             for(uint256 tokenId = 1; tokenId <= totalToken; tokenId++) {
-                if (SBTTokenIdByholder[tokenId] == _owner) {
+                if(SBTTokenIdByholder[tokenId] == _owner){
                     result[resultIndex] = tokenId;
                     resultIndex++;
                 }

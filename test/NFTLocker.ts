@@ -89,6 +89,15 @@ describe("NFTLocker", function () {
         .to.equal(account.address)
       expect(await  testNFT.connect(account).ownerOf(4))
         .to.equal(minter1.address)
+
+      // tokensOfOwner
+      expect(await nftLocker.connect(account).tokensOfOwner(account.address))
+      .to.deep.equals([2])
+
+      expect(await nftLocker.connect(account).tokenURI(2))
+      .to.equals('https://test.com/json/3.json')
+      expect(await nftLocker.connect(account).tokensOfOwner(minter1.address))
+      .to.deep.equals([])
     })
   })
 
